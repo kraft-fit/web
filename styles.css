@@ -180,7 +180,7 @@ a:focus-visible, .btn:focus-visible, .site-nav a:focus-visible, .nav-toggle:focu
 .lets-train a:hover { opacity: 0.8; }
 
 /* Social media icons in contact section */
-.contact-card .fab { font-size: 1em; margin-right: 0.25rem; vertical-align: baseline; }
+.contact-card .social-icons { font-size: 1.5em; margin-right: 0.25rem; vertical-align: baseline; }
 
 /* Contact form */
 .contact-form { background: #ffffff; border: 1px solid var(--border); padding: 1rem; border-radius: 10px; margin-top: 1rem; }
