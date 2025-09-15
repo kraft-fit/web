@@ -59,6 +59,7 @@
       const name = /** @type {HTMLInputElement} */ (form.querySelector('#name'))?.value?.trim() || '';
       const email = /** @type {HTMLInputElement} */ (form.querySelector('#email'))?.value?.trim() || '';
       const phone = /** @type {HTMLInputElement} */ (form.querySelector('#phone'))?.value?.trim() || '';
+      const whatsapp = /** @type {HTMLInputElement} */ (form.querySelector('#whatsapp'))?.value?.trim() || '';
       const requirements = /** @type {HTMLTextAreaElement} */ (form.querySelector('#requirements'))?.value?.trim() || '';
       const ringToken = ringTokenInput?.value?.trim() || '';
 
@@ -79,6 +80,7 @@
       payload.append('name', name);
       payload.append('email', email);
       payload.append('phone', phone);
+      payload.append('whatsapp', whatsapp);
       payload.append('requirements', requirements);
       payload.append('ring_token', ringToken);
       payload.append('page', location.pathname + location.hash);
@@ -106,7 +108,7 @@
       }
 
       // Fallback: mailto
-      const body = `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\n\nRequirements:\n${requirements}`;
+      const body = `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nWhatsApp: ${whatsapp || 'Not provided'}\n\nRequirements:\n${requirements}`;
       const subject = 'New lead from KRAFT FIT website';
       const mailto = `mailto:kraftfitonline@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       window.location.href = mailto;
