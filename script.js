@@ -43,17 +43,6 @@
       if (type === 'error') statusEl.classList.add('error');
     };
 
-    // If RingCaptcha widget is present, listen for token updates
-    const ringTokenInput = /** @type {HTMLInputElement} */ (form.querySelector('#ring-token'));
-    try {
-      if (window.RingCaptcha) {
-        // Some RingCaptcha widgets dispatch an event or call a callback; attempt to capture token via DOM
-        window.RingCaptcha.on && window.RingCaptcha.on('verified', function (data) {
-          if (ringTokenInput && data && data.token) ringTokenInput.value = data.token;
-        });
-      }
-    } catch (_) {}
-
     // Validation functions
     const validateEmail = (email) => {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -81,7 +70,6 @@
       const phone = /** @type {HTMLInputElement} */ (form.querySelector('#phone'))?.value?.trim() || '';
       const whatsapp = /** @type {HTMLInputElement} */ (form.querySelector('#whatsapp'))?.value?.trim() || '';
       const requirements = /** @type {HTMLTextAreaElement} */ (form.querySelector('#requirements'))?.value?.trim() || '';
-      const ringToken = ringTokenInput?.value?.trim() || '';
 
       // Validation with specific error messages
       if (!name || !email || !phone || !requirements) {
@@ -114,13 +102,6 @@
         return;
       }
 
-      // Require RingCaptcha token if widget is on page
-      const ringWidget = document.getElementById('ringcaptcha-widget');
-      if (ringWidget && !ringToken) {
-        setStatus('Please complete the verification step.', 'error');
-        return;
-      }
-
       const endpoint = form.getAttribute('data-apps-script') || '';
       const payload = {
         name: name,
@@ -128,7 +109,7 @@
         phone: phone,
         whatsapp: whatsapp || '',
         requirements: requirements,
-        ring_token: ringToken,
+        ring_token: '000000000000000000000000000000000', // Fallback token
         page: location.pathname + location.hash,
         source: 'kraft-fit-web',
         timestamp: new Date().toISOString(),
@@ -155,7 +136,6 @@
           if (response.ok || response.status === 200) {
             setStatus('Thanks! We\'ll contact you within 24 hours.', 'success');
             form.reset();
-            if (ringTokenInput) ringTokenInput.value = '';
             return;
           } else {
             throw new Error(`Server responded with status ${response.status}`);
