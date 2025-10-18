@@ -14,6 +14,7 @@ KRAFT FIT offers comprehensive personal training services including strength tra
 - **Performance**: Optimized images, lazy loading, and efficient CSS
 - **SEO Optimized**: Meta tags, structured data, and semantic markup
 - **Interactive Elements**: Smooth animations, hover effects, and form validation
+- **Analytics**: Google Tag Manager with comprehensive event tracking (15+ event types)
 
 ## 🎨 Brand Guidelines
 
@@ -56,13 +57,20 @@ site/web/
 ├── index.html              # Main HTML file
 ├── styles.css              # All CSS styles
 ├── script.js               # JavaScript functionality
+├── gtm-events.js           # Google Tag Manager event tracking
 ├── Makefile                # Development commands
-├── AGENT.md                # Brand guidelines for AI agents
+├── AGENTS.md               # Brand guidelines for AI agents
 ├── README.md               # This file
+├── GTM-QUICKSTART.md       # GTM quick setup guide
+├── GTM-SETUP.md            # Complete GTM documentation
+├── GTM-IMPLEMENTATION.md   # GTM implementation summary
+├── GTM-TESTING.md          # GTM testing checklist
 └── assets/
     ├── logo-icon.png       # Square logo for favicons
     ├── logo-word.png       # Horizontal wordmark
     ├── logo-word-web.png   # Web-optimized wordmark
+    ├── brand.md            # Brand assets documentation
+    ├── content.md          # Content guidelines
     ├── strength-training.jpg
     ├── muscle-gain.jpg
     ├── weight-loss.jpg
@@ -122,10 +130,55 @@ site/web/
 - **HTML5**: Semantic markup with proper accessibility
 - **CSS3**: Custom properties, Grid, Flexbox, modern features
 - **JavaScript**: Vanilla JS for navigation and form handling
+- **Analytics**: Google Tag Manager (GTM-K458C47C) with GA4 event tracking
 - **Fonts**: Google Fonts (League Spartan, Montserrat)
 - **Icons**: Font Awesome 6.4.0
 - **Images**: Optimized JPGs from Unsplash (MIT licensed)
 - **SEO**: Open Graph, Twitter Cards, JSON-LD structured data
+
+## 📊 Google Tag Manager & Analytics
+
+The site includes comprehensive event tracking via Google Tag Manager:
+
+### Container Information
+- **GTM Container ID**: `GTM-K458C47C`
+- **Implementation**: Head + body tags installed
+- **Event Script**: `gtm-events.js`
+
+### Tracked Events (15+ types)
+- Page views with enhanced metadata
+- CTA button clicks (primary/secondary)
+- WhatsApp contact clicks
+- Form interactions (start, field completion, submit, success/error)
+- Service card clicks
+- Navigation clicks (header/footer)
+- Social media clicks
+- Scroll depth (25%, 50%, 75%, 100%)
+- Section views (when 50% visible)
+- Time on page (30s, 1m, 2m, 5m)
+- Mobile menu toggles
+- External link clicks
+- JavaScript errors
+- User engagement scoring
+
+### Quick Start
+1. See `GTM-QUICKSTART.md` for setup instructions
+2. Configure GA4 property and get Measurement ID
+3. Create GTM tags for events (see `GTM-SETUP.md`)
+4. Test using GTM Preview Mode
+5. Publish and monitor
+
+### Testing
+- Open browser console to see event logs
+- Use `GTM-TESTING.md` checklist
+- Verify with GTM Preview Mode
+- Check GA4 DebugView for real-time events
+
+### Documentation
+- **GTM-QUICKSTART.md**: Quick setup guide
+- **GTM-SETUP.md**: Complete technical reference
+- **GTM-IMPLEMENTATION.md**: Implementation summary
+- **GTM-TESTING.md**: Testing checklist
 
 ## 🚀 Performance
 

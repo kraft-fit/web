@@ -1,20 +1,32 @@
 /**
- * Google Tag Manager Event Tracking for Kraft Fit
- * Tracks user interactions and pushes events to dataLayer for Google Analytics
+ * Google Tag Manager & Google Analytics Event Tracking for Kraft Fit
+ * Tracks user interactions and pushes events to dataLayer (GTM) and gtag (GA4)
  */
 
 (function () {
   'use strict';
 
-  // Helper function to push events to dataLayer
+  // Helper function to push events to dataLayer (GTM) and gtag (GA4)
   const pushEvent = (eventName, eventData = {}) => {
     window.dataLayer = window.dataLayer || [];
+    const timestamp = new Date().toISOString();
+
+    // Push to GTM dataLayer
     window.dataLayer.push({
       event: eventName,
       ...eventData,
-      timestamp: new Date().toISOString(),
+      timestamp: timestamp,
     });
-    console.log('GTM Event:', eventName, eventData);
+
+    // Also send directly to GA4 via gtag (if available)
+    if (typeof gtag !== 'undefined') {
+      // Remove timestamp from GA4 events (GA4 adds it automatically)
+      const ga4Data = { ...eventData };
+      delete ga4Data.timestamp;
+      gtag('event', eventName, ga4Data);
+    }
+
+    console.log('📊 Event Tracked:', eventName, eventData);
   };
 
   // Page View Tracking (enhanced)
@@ -385,7 +397,9 @@
     trackErrors();
     trackEngagement();
 
-    console.log('✅ GTM Event Tracking initialized for Kraft Fit');
+    console.log('✅ GTM & GA4 Event Tracking initialized for Kraft Fit');
+    console.log('📊 GA4 Measurement ID: G-VRXX1B69B1');
+    console.log('🏷️  GTM Container ID: GTM-K458C47C');
   };
 
   // Start tracking
