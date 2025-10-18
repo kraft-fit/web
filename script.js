@@ -54,6 +54,26 @@
       }
     } catch (_) {}
 
+    // Validation functions
+    const validateEmail = (email) => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    };
+
+    const validatePhone = (phone) => {
+      // Allow international format with optional + and spaces/dashes
+      const phoneRegex = /^\+?[\d\s\-()]{8,20}$/;
+      return phoneRegex.test(phone);
+    };
+
+    const validateName = (name) => {
+      return name.length >= 2 && name.length <= 100;
+    };
+
+    const validateRequirements = (text) => {
+      return text.length >= 10 && text.length <= 1000;
+    };
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const name = /** @type {HTMLInputElement} */ (form.querySelector('#name'))?.value?.trim() || '';
@@ -63,8 +83,34 @@
       const requirements = /** @type {HTMLTextAreaElement} */ (form.querySelector('#requirements'))?.value?.trim() || '';
       const ringToken = ringTokenInput?.value?.trim() || '';
 
+      // Validation with specific error messages
       if (!name || !email || !phone || !requirements) {
         setStatus('Please fill in all required fields.', 'error');
+        return;
+      }
+
+      if (!validateName(name)) {
+        setStatus('Please enter a valid name (2-100 characters).', 'error');
+        return;
+      }
+
+      if (!validateEmail(email)) {
+        setStatus('Please enter a valid email address.', 'error');
+        return;
+      }
+
+      if (!validatePhone(phone)) {
+        setStatus('Please enter a valid phone number.', 'error');
+        return;
+      }
+
+      if (whatsapp && !validatePhone(whatsapp)) {
+        setStatus('Please enter a valid WhatsApp number.', 'error');
+        return;
+      }
+
+      if (!validateRequirements(requirements)) {
+        setStatus('Requirements must be between 10 and 1000 characters.', 'error');
         return;
       }
 
@@ -76,34 +122,48 @@
       }
 
       const endpoint = form.getAttribute('data-apps-script') || '';
-      const payload = new FormData();
-      payload.append('name', name);
-      payload.append('email', email);
-      payload.append('phone', phone);
-      payload.append('whatsapp', whatsapp);
-      payload.append('requirements', requirements);
-      payload.append('ring_token', ringToken);
-      payload.append('page', location.pathname + location.hash);
-      payload.append('source', 'kraft-fit-web');
-      payload.append('timestamp', new Date().toISOString());
+      const payload = {
+        name: name,
+        email: email,
+        phone: phone,
+        whatsapp: whatsapp || '',
+        requirements: requirements,
+        ring_token: ringToken,
+        page: location.pathname + location.hash,
+        source: 'kraft-fit-web',
+        timestamp: new Date().toISOString(),
+      };
 
       setStatus('Submitting…');
 
-      if (endpoint) {
+      if (endpoint && endpoint.includes('script.google.com')) {
         try {
-          // Many Apps Script deployments require no-cors
-          await fetch(endpoint, {
+          // Use URLSearchParams for proper form encoding with Google Apps Script
+          const formData = new URLSearchParams();
+          Object.keys(payload).forEach(key => formData.append(key, payload[key]));
+
+          const response = await fetch(endpoint, {
             method: 'POST',
-            mode: 'no-cors',
-            body: payload,
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: formData.toString(),
+            redirect: 'follow',
           });
-          setStatus('Thanks! We’ll contact you shortly.', 'success');
-          form.reset();
-          if (ringTokenInput) ringTokenInput.value = '';
-          return;
+
+          // Check if response is OK (status 200-299)
+          if (response.ok || response.status === 200) {
+            setStatus('Thanks! We\'ll contact you within 24 hours.', 'success');
+            form.reset();
+            if (ringTokenInput) ringTokenInput.value = '';
+            return;
+          } else {
+            throw new Error(`Server responded with status ${response.status}`);
+          }
         } catch (err) {
           console.error('Apps Script submit failed', err);
-          setStatus('Couldn’t submit to the server. Falling back to email…');
+          setStatus('Couldn\'t submit to the server. Please try again or contact us directly.', 'error');
+          return;
         }
       }
 
