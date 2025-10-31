@@ -119,7 +119,7 @@ site/web/
 
 ## 📞 Contact Information
 
-- **Phone**: +971 50 313 7376, +971 56 792 8788
+- **Phone**: +971 56 792 8788, +971 56 792 8788
 - **Email**: kraftfitonline@gmail.com
 - **Website**: www.kraft-fit.com
 - **Instagram**: @kraftfit.dxb

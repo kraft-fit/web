@@ -3,7 +3,7 @@
 *Fitness Partners*
 **“Fitness That Fits Your Life”**
 
-📞 050 3137 376 | 056 7928 788
+📞 056 7928 788 | 056 7928 788
 📧 [kraftfitonline@gmail.com](mailto:kraftfitonline@gmail.com)
 🌐 [www.kraft-fit.com](http://www.kraft-fit.com)
 📱 kraftfit.dxb | kraftfit
@@ -58,4 +58,4 @@ We don’t just **train bodies – we transform lives.** With years of experienc
 
 👥 Gents & Ladies Trainers Available
 
-📞 050 3137 376 | 056 7928 788
+📞 056 7928 788 | 056 7928 788
